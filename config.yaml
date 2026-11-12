@@ -1,0 +1,63 @@
+# ============================================================================
+# Anti-Gravity GSM Automator - Central Configuration
+# Environment variables in `.env` take precedence over values defined here.
+# ============================================================================
+
+polling:
+  interval_seconds: 60
+  run_once: false
+
+paths:
+  roster_xlsx: "./data/shift_roster.xlsx"
+  tracker_xlsx: "./data/GSM_Incident_Tracker.xlsx"
+  log_file: "./logs/gsm_automation.log"
+  screenshots_dir: "./logs/screenshots"
+
+logging:
+  level: "INFO"
+  max_bytes: 10485760  # 10 MB per log file
+  backup_count: 5
+
+excel_concurrency:
+  max_retries: 6
+  retry_delay_seconds: 2.5
+  backoff_multiplier: 1.5
+
+roster:
+  selection_strategy: "load_balanced"  # Options: "round_robin" | "load_balanced"
+  assign_to_lead_when_unmanned: true
+  unmanned_work_note: "No active shift personnel detected in roster."
+
+gsm_portal:
+  base_url: "https://gsm.company.internal"
+  dashboard_url: "https://gsm.company.internal/incidents/unassigned"
+  ticket_url_template: "https://gsm.company.internal/incidents/view/{incident_id}"
+  user_data_dir: "./browser_profile"
+  storage_state_path: ""  # Optional cookie state JSON if not using persistent user_data_dir
+  headless: false
+  mock_mode: false
+  navigation_timeout_ms: 30000
+  action_timeout_ms: 15000
+  selectors:
+    # Customize CSS selectors to match your organization's GSM Portal DOM
+    dashboard_ready: "table#incident-grid, [data-testid='incident-table']"
+    unassigned_rows: "table#incident-grid tbody tr.unassigned-row"
+    col_incident_id: "td.col-incident-id"
+    col_priority: "td.col-priority"
+    col_summary: "td.col-summary"
+    col_assignment_group: "td.col-assignment-group"
+    col_timestamp: "td.col-created-at"
+    assignee_input: "input#assignee-field, [name='assigned_to']"
+    work_note_textarea: "textarea#work-notes, [name='work_notes']"
+    save_button: "button#save-incident, button[type='submit']"
+    sso_login_indicator: "input[type='email'], #i0116, .sso-login-prompt"
+
+notifications:
+  high_priority_levels:
+    - "P1"
+    - "P2"
+  http_timeout_seconds: 10
+  max_retries: 3
+  supervisor:
+    name: "Duty Supervisor"
+    email_or_upn: "duty.supervisor@company.com"
