@@ -1,0 +1,19 @@
+# Secrets & local overrides
+.env
+
+# Python virtual environments & bytecode
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Playwright persistent SSO session & failure screenshots
+browser_profile/
+storage_state.json
+logs/*.log*
+logs/screenshots/
+
+# Runtime Excel data (keep .gitkeep)
+data/*.xlsx
+~$*.xlsx
