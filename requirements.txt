@@ -1,0 +1,8 @@
+# Anti-Gravity GSM Automator - Locked Production Dependencies
+playwright==1.49.1
+openpyxl==3.1.5
+PyYAML==6.0.2
+python-dotenv==1.0.1
+requests==2.32.3
+tzdata==2024.2
+pytest==8.3.4
